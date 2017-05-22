@@ -10,6 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * 
+ * @author Indy
+ *
+ */
 @Document(collection = "drivers")
 public class Driver implements UserDetails{
 

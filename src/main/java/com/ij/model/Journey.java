@@ -3,6 +3,11 @@ package com.ij.model;
 import java.util.ArrayList;
 
 
+/**
+ * 
+ * @author Indy
+ *
+ */
 public class Journey {
 
     private String journeyId = null;

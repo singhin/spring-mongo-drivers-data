@@ -3,26 +3,28 @@ package com.ij.model.service;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import com.ij.model.Driver;
 import com.ij.model.Journey;
 import com.ij.model.JourneyDetail;
 
-import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 
+ * @author Indy
+ *
+ */
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
     private DriverRepository driverRepository;
     
-    @Value("${csv.path}")
     private String csvPath;
 
     public DatabaseSeeder(DriverRepository driverRepository) {
@@ -36,9 +38,11 @@ public class DatabaseSeeder implements CommandLineRunner {
         //Create the CSVFormat object
         CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter(',');
        
-        Resource resource = new ClassPathResource(csvPath);
-        //initialize the CSVParser object
-        CSVParser parser = new CSVParser(new InputStreamReader(resource.getInputStream()), format);
+        for (String option : strings) {
+            csvPath=option;
+        }
+        
+        CSVParser parser = new CSVParser(new FileReader(new File(csvPath)), format);
 
         List<Driver> drivers = new ArrayList<Driver>();
         Driver driver = null;
@@ -47,8 +51,8 @@ public class DatabaseSeeder implements CommandLineRunner {
         String tempJourneyId = null;
         for (CSVRecord record : parser) {
 
-            String userId = record.get("userId");
-            String journeyId = record.get("journeyId");
+            String userId = record.get("user_id");
+            String journeyId = record.get("id");
 
             if (!userId.equals(tempUserId)) {
                 if(journey != null)
@@ -78,7 +82,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                     driver.setJourneys(journeys);
                 }
                 journey = new Journey();
-                journey.setJourneyId(record.get("journeyId"));
+                journey.setJourneyId(record.get("id"));
             }
 
             JourneyDetail journeyDetail = new JourneyDetail();

@@ -2,6 +2,11 @@ package com.ij.model;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author Indy
+ *
+ */
 public class JourneyDetail {
 
     private Date time;

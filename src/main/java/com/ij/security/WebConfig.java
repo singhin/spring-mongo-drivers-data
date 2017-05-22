@@ -22,6 +22,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.ij.model.Driver;
 import com.ij.model.service.DriverRepository;
 
+/**
+ * 
+ * @author Indy
+ *
+ */
 @Configurable
 @EnableWebSecurity
 // Modifying or overriding the default spring boot security.
