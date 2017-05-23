@@ -1,9 +1,10 @@
 package com.ij.controller;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ij.model.Driver;
 import com.ij.model.service.DriverRepository;
+import com.ij.security.DriverException;
 
-/**
- * 
- * @author Indy
- *
- */
 @RestController
-@RequestMapping("/drivers/user")
+@RequestMapping("/drivers")
 public class UserRestController {
 
 	
@@ -27,21 +24,27 @@ public class UserRestController {
     public UserRestController(DriverRepository driverRepository) {
         this.driverRepository = driverRepository;
     }
-    
-	@RequestMapping("/resource")
-	public Map<String, Object> sayHello() {
-		Map<String, Object> map = new HashMap<>();
-		map.put("message", "Hello User");
-		map.put("timestamp", new Date().getTime());
-		return map;
-	}
 	
-	
-    @GetMapping("/{userId}")
-    public Driver getByUserId(@PathVariable("userId") String userId){
-        Driver driver = this.driverRepository.findByUserId(userId);
-        	
-        return driver;
-    }
-
+	@GetMapping("user/{userId}")
+    public ResponseEntity<Driver> getByUserId(@PathVariable("userId") String userId) throws DriverException{
+        
+		Driver driver = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        for(GrantedAuthority a : auth.getAuthorities())
+        {
+        	if(userId.equals(auth.getName()) || a.getAuthority().equals("ADMIN"))
+        	{
+        		driver = this.driverRepository.findByUserId(userId);
+        		break;
+        	}
+        }
+        
+        if(driver == null)
+        {
+        	 throw new DriverException("You are not authorised to access the request resource");
+        }
+        
+        return new ResponseEntity<Driver>(driver, HttpStatus.OK);
+    }	
 }

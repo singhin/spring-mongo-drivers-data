@@ -112,13 +112,6 @@ public class Driver implements UserDetails{
 		this.roles = roles;
 	}
 
-	@Override
-    public String toString() {
-        return "Driver{" +
-                "userId='" + userId + '\'' +
-                ", journeyList=" + journeys +
-                '}';
-    }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

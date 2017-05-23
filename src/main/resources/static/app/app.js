@@ -47,24 +47,14 @@ app.controller('AppCtrl', function($http, $scope) {
 								});
 
 					};
-					// method for getting an Administrator Resource
-					$scope.getAdminResouce = function(username) {
-						$scope.error = null;
-						$http.get(
-								'http://localhost:8080/drivers/admin').success(function(res) {
-							$scope.resource = res;
-						}).error(function(error) {
-							$scope.error = error;
-						});
-					};
 					
 					
 					// method for getting a User Resource
-					$scope.getUserResouce = function(username) {
+					$scope.getUserResouce = function(userId) {
 						
 						$scope.error = null;
 						$scope.journeyDate = "Journey Date -";
-						$http.get('http://localhost:8080/drivers/user/'+ username)
+						$http.get('http://localhost:8080/drivers/user/'+ userId)
 								.success(
 										function(response) {
 											$scope.resource = response;

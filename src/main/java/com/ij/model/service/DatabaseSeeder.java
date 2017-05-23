@@ -3,6 +3,7 @@ package com.ij.model.service;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,15 @@ import java.util.List;
 @Component
 public class DatabaseSeeder implements CommandLineRunner {
     private DriverRepository driverRepository;
+    
+    @Value("${admin.userId}")
+    private String adminUserId;
+    
+    @Value("${admin.username}")
+    private String adminUsername;
+    
+    @Value("${admin.password}")
+    private String adminPassword;
     
     private String csvPath;
 
@@ -112,9 +122,9 @@ public class DatabaseSeeder implements CommandLineRunner {
         
         //Adding the admin
         Driver adminDriver = new Driver();
-        adminDriver.setUserId("admin");
-        adminDriver.setUsername("admin");
-        adminDriver.setPassword("admin");
+        adminDriver.setUserId(adminUserId);
+        adminDriver.setUsername(adminUsername);
+        adminDriver.setPassword(adminPassword);
         adminDriver.setRoles(new String[]{"ADMIN"});
         drivers.add(adminDriver);
 
