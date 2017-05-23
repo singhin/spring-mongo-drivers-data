@@ -54,6 +54,8 @@ app.controller('AppCtrl', function($http, $scope) {
 						
 						$scope.error = null;
 						$scope.journeyDate = "Journey Date -";
+						$scope.journeyData = null;
+						$scope.user_id = "User ID - " + userId;
 						$http.get('http://localhost:8080/drivers/user/'+ userId)
 								.success(
 										function(response) {
@@ -112,6 +114,7 @@ app.controller('AppCtrl', function($http, $scope) {
 						$scope.message = 'Successfully logged out';
 						$scope.resource = null;
 						$scope.testData = null;
+						$$scope.journeyData = null;
 					};
 
 				});

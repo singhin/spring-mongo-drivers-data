@@ -54,7 +54,7 @@
 					        <input type="search" required placeholder="Username to find" ng-model="driver" />
 					        <input type="submit" value="Search">
 					    </form>
-					    
+					<div style="margin-top: 20px;" ng-show="role == 'ADMIN'"><h4>{{user_id}}</h4></div>   
 					<div ng-show="testData.messages" style="margin-top: 20px;">
 						<div ng-repeat="(key, value) in testData.messages" ng-click="setContent(value)">
 							<div>
